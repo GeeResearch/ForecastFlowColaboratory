@@ -276,9 +276,30 @@ class ForecastFlow:
         try:
             self.df_test = self._data_loader(partition='test')
         except FileNotFoundError:
-            self._stop_process(
-                '精度検証用CSVデータが < {} > の中にありません。\n'.format(os.path.join(self.project_name, 'test'))
-                + 'データをアップロードしてからリトライしてください。')
+                print('精度検証用CSVデータが < {} > の中にありません。\n'.format(os.path.join(self.project_name, 'test')))
+                print('以下の選択肢から精度検証用データの準備方法を決めてください。\n')
+                print('=' * 40)
+                print(' 1. マニュアルでアップロードする\n')
+                print(' 2. 訓練データをランダムに分割する\n')
+                operate_id = input()
+
+                if operate_id in ('1', '１', 1, '一', 'いち', '①', '壱'):
+                    self._stop_process('データをアップロードしてからリトライしてください。')
+                elif operate_id in ('2', '２', 2, '二', 'に', '②', '弐'):
+                    print('訓練データから精度検証データに移行する割合を入力してください [ 0.0 ～ 1.0 の範囲 ]\n')
+                    test_size = input()
+                    try:
+                        test_size = float(test_size)
+                    except:
+                        self._stop_process('数値で入力してください。')
+                    if test_size < 0.0 or test_size >= 1.0:
+                        self._stop_process('0 から 1 の範囲で入力してください。')
+
+                self.df_train, self.df_test = train_test_split(self.df_train,
+                                                               train_size=1 - test_size,
+                                                               test_size=test_size)
+                print('分割に成功しました。\n')
+
         except MemoryError:
             self._stop_process(
                 '精度検証用CSVデータの容量が許容量を超えています。\n'
