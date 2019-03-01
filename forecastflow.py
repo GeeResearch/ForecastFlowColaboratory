@@ -484,14 +484,14 @@ class ForecastFlow:
                 self._stop_process('データを見直し、修正してからリトライしてください。')
 
         target_dtype_train = self.df_train[self.Target].dtype
-        if target_dtype_train not in ('int', 'object'):
-            err_msg = ('訓練用データの正解データが、整数型または文字列型 以外のデータ型であるためエラーになります。\n'
+        if target_dtype_train not in ('int', 'object', 'bool'):
+            err_msg = ('訓練用データの正解データが、整数型/文字列型/論理値 以外のデータ型であるためエラーになります。\n'
                        + 'データを見直し、修正してからリトライしてください。')
             self._stop_process(err_msg)
 
         target_dtype_test = self.df_test[self.Target].dtype
-        if target_dtype_test not in ('int', 'object'):
-            err_msg = ('精度検証用データの正解データが、整数型または文字列型 以外のデータ型であるためエラーになります。\n'
+        if target_dtype_test not in ('int', 'object', 'bool'):
+            err_msg = ('精度検証用データの正解データが、整数型/文字列型/論理値 以外のデータ型であるためエラーになります。\n'
                        + 'データを見直し、修正してからリトライしてください。')
             self._stop_process(err_msg)
 
@@ -503,12 +503,12 @@ class ForecastFlow:
         target_dtype_test = self.df_test[self.Target].dtype
 
         if target_dtype_train not in ('int', 'float'):
-            err_msg = ('訓練用の正解データに数値以外のデータが含まれるため、エラーになります。\n'
+            err_msg = ('訓練用の正解データに 数値 以外のデータが含まれるため、エラーになります。\n'
                        + 'データを見直し、修正してからリトライしてください。')
             self._stop_process(err_msg)
 
         if target_dtype_test not in ('int', 'float'):
-            err_msg = ('精度検証用の正解データに数値以外のデータが含まれるため、エラーになります。\n'
+            err_msg = ('精度検証用の正解データに 数値 以外のデータが含まれるため、エラーになります。\n'
                        + 'データを見直し、修正してからリトライしてください。')
             self._stop_process(err_msg)
 
