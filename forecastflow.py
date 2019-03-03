@@ -578,16 +578,16 @@ class ForecastFlow:
         with open(os.path.join('/content', self.project_name, 'conf.yml'), 'w') as f:
             yaml.dump(conf_dict, f, default_flow_style=False)
 
-        for f in os.listdir(self.dir_train):
+        for f in [_fname for _fname in os.listdir(self.dir_train) if os.path.splitext(_fname)[1] == '.csv']:
             os.remove(os.path.join(self.dir_train, f))
         self.df_train.to_csv(os.path.join(self.dir_train, 'train.csv'), index=False)
 
-        for f in os.listdir(self.dir_test):
+        for f in [_fname for _fname in os.listdir(self.dir_test) if os.path.splitext(_fname)[1] == '.csv']:
             os.remove(os.path.join(self.dir_test, f))
         self.df_test.to_csv(os.path.join(self.dir_test, 'test.csv'), index=False)
 
         if self.is_pred:
-            for f in os.listdir(self.dir_pred):
+            for f in [_fname for _fname in os.listdir(self.dir_pred) if os.path.splitext(_fname)[1] == '.csv']:
                 os.remove(os.path.join(self.dir_pred, f))
             self.df_pred.to_csv(os.path.join(self.dir_pred, 'pred.csv'), index=False)
 
