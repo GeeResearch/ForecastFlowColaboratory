@@ -161,8 +161,6 @@ class ForecastFlow:
         elif partition == 'pred':
             id_err_msg1 = 'データエラー: 予測用CSVデータに IDカラム "{}" が含まれていません。'
             id_err_msg2 = 'データエラー: 予測用CSVデータの IDカラム "{}" に欠損値が含まれています。'
-            target_err_msg1 = 'データエラー: 予測用CSVデータに 正解カラム "{}" が含まれていません。'
-            target_err_msg2 = 'データエラー: 予測用CSVデータの 正解カラム "{}" に欠損値が含まれています。'
 
         col = df.columns
 
@@ -179,16 +177,18 @@ class ForecastFlow:
                     is_err = True
                     print(id_err_msg2.format(_id))
 
-        # Target Validation
-        if self.Target not in col:
-            print(target_err_msg1.format(self.Target))
-        else:
-            null_count = df[self.Target].isnull().sum()
-            if null_count > 0:
-                is_err = True
-                print(target_err_msg2.format(self.Target))
-
-        return is_err
+        if partition == 'pred':
+            return is_err
+        elif partition in ('train', 'test'):
+            # Target Validation
+            if self.Target not in col:
+                print(target_err_msg1.format(self.Target))
+            else:
+                null_count = df[self.Target].isnull().sum()
+                if null_count > 0:
+                    is_err = True
+                    print(target_err_msg2.format(self.Target))
+            return is_err
 
     def _remove_datetime(self):
 
