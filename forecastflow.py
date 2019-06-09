@@ -609,7 +609,8 @@ class ForecastFlow:
 
         # sending post request and saving response as response object
         req = requests.post(
-            url='https://echodolphin.ml/ff_api',
+            #url='https://echodolphin.ml/ff_api',
+            url='https://echodolphin.org/v1/ml-run',
             data=data)
 
         # extracting response text
@@ -620,6 +621,7 @@ class ForecastFlow:
             print('エラー: MaxEvals が許可された範囲を超えています。')
         elif res['message'] == '2':
             print('エラー: ユーザ名に誤りがあります。')
+
 
     def download(self):
         dl = 'gsutil -m cp -r gs://{}/{} .'.format(self.bucket_name, self.project_name)
