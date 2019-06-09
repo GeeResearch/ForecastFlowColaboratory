@@ -614,14 +614,11 @@ class ForecastFlow:
             json=data)
 
         # extracting response text
-        print(req.text)
         res = json.loads(req.text)
         if res['message'] == '0':
             print('リクエストが正常に受け付けられました。完了までしばらくお待ちください。')
-        elif res['message'] == '1':
-            print('エラー: MaxEvals が許可された範囲を超えています。')
-        elif res['message'] == '2':
-            print('エラー: ユーザ名に誤りがあります。')
+        else:
+            print(res)
 
 
     def download(self):
