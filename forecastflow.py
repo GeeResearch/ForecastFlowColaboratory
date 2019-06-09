@@ -614,6 +614,7 @@ class ForecastFlow:
             data=data)
 
         # extracting response text
+        print(req.text)
         res = json.loads(req.text)
         if res['message'] == '0':
             print('リクエストが正常に受け付けられました。完了までしばらくお待ちください。')
