@@ -610,7 +610,7 @@ class ForecastFlow:
         # sending post request and saving response as response object
         req = requests.post(
             #url='https://echodolphin.ml/ff_api',
-            url='https://echodolphin.org/v1/ml-run',
+            url='https://dev.echodolphin.org/v1/ml-run',
             json=data)
 
         # extracting response text
